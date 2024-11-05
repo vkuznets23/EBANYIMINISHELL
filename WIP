@@ -1,0 +1,20 @@
+token/parsing
+	make tokenizer work with ' ' " "  DONE
+	parsing with io redirections  DONE
+	parsing with "wrong" order of commands  DONE
+	also if redirections come before the command  DONE
+	lots of error handling
+	cleanup functions for freeing tokens and AST DONE
+	heredoc, append ->token and parsing part DONE
+
+	expansion in heredoc with or wihtout quoptes
+
+execution
+	handle NULL cmd aka just redirection without cmd
+other
+	signals
+	expanding
+	builtin
+
+PWD/CD not working
+Cannot find command name wrong, using un expanded
