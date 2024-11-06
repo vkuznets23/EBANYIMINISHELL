@@ -6,7 +6,7 @@
 /*   By: vkuznets <vkuznets@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 12:25:41 by vkuznets          #+#    #+#             */
-/*   Updated: 2024/11/06 12:29:00 by vkuznets         ###   ########.fr       */
+/*   Updated: 2024/11/06 15:04:00 by vkuznets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,10 @@ int	redirection(t_ast *node)
 	while (current_io)
 	{
 		if (current_io->type == T_IN)
+		{
+			fprintf(stderr, "1\n");
 			status = ft_in(current_io);
+		}
 		else if (current_io->type == T_OUT)
 			status = ft_out(current_io);
 		else if (current_io->type == T_APPEND)
@@ -127,7 +130,7 @@ int	redirection(t_ast *node)
 		else if (current_io->type == T_HEREDOC)
 			status = ft_heredoc(current_io);
 		if (status == -1)
-			error_handler(current_io->value, 2);
+			return (-1);
 		current_io = current_io->next;
 	}
 	return (0);
