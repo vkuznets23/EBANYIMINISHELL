@@ -1,6 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirection.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vkuznets <vkuznets@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/06 12:25:41 by vkuznets          #+#    #+#             */
+/*   Updated: 2024/11/06 12:29:00 by vkuznets         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
-//this is MB how this function shoul look like
 void	error_options(int error)
 {
 	if (error == 1)
@@ -31,16 +42,17 @@ static int	ft_in(t_io *io_list)
 		error_handler(io_list->value, 2);
 		return (-1);
 	}
-	if(dup2(fd, STDIN_FILENO) == -1)
+	if (dup2(fd, STDIN_FILENO) == -1)
 	{
 		perror("dup2 input");
 		close(fd);
 		return (-1);
 	}
 	close(fd);
-	return (0);  // Success
+	return (0);
 }
 
+// Output redirection <
 static int	ft_out(t_io *io_list)
 {
 	int	fd;
@@ -61,6 +73,7 @@ static int	ft_out(t_io *io_list)
 	return (0);
 }
 
+//Appending >>
 static int	ft_append(t_io *io_list)
 {
 	int	fd;
@@ -81,6 +94,7 @@ static int	ft_append(t_io *io_list)
 	return (0);
 }
 
+//Heredoc <<
 static int	ft_heredoc(t_io *io_list)
 {
 	if (io_list->heredoc_fd == -1)
@@ -91,32 +105,30 @@ static int	ft_heredoc(t_io *io_list)
 		close(io_list->heredoc_fd);
 		return (-1);
 	}
-
 	close(io_list->heredoc_fd);
 	return (0);
 }
 
-//we use statuses here to check if it fails or not because this functions are meant
-// to return 0 or -1
 int	redirection(t_ast *node)
 {
-	t_io	*current_io = node->io_list;
-	int		status = 0;
+	t_io	*current_io;
+	int		status;
 
+	current_io = node->io_list;
+	status = 0;
 	while (current_io)
 	{
 		if (current_io->type == T_IN)
 			status = ft_in(current_io);
 		else if (current_io->type == T_OUT)
 			status = ft_out(current_io);
-		else if (current_io->type == T_APPEND) 
+		else if (current_io->type == T_APPEND)
 			status = ft_append(current_io);
 		else if (current_io->type == T_HEREDOC)
 			status = ft_heredoc(current_io);
-		if (status == -1) 
+		if (status == -1)
 			error_handler(current_io->value, 2);
 		current_io = current_io->next;
 	}
 	return (0);
 }
-

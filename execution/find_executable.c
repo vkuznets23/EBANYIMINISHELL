@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   find_executable.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vkuznets <vkuznets@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/06 12:24:56 by vkuznets          #+#    #+#             */
+/*   Updated: 2024/11/06 12:25:25 by vkuznets         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 /**
@@ -14,8 +26,6 @@
  * Returns:
  * A string representing the full path to the executable if found, or NULL.
  */
-
-// find executeble -> build executeble > exec_bin -> child_process
 char	*find_executable(char *cmd, char *path)
 {
 	char	**envp_paths;
@@ -65,7 +75,7 @@ char	*build_executable(t_ast *node, t_ms *ms)
 	binary = node->value;
 	if (!ft_strchr(binary, '/'))
 	{
-		binary = ft_strjoin("/", binary);//MALLOC
+		binary = ft_strjoin("/", binary);
 		if (!binary)
 			return (NULL);
 		path = envp_exists("PATH", ms);
@@ -74,7 +84,7 @@ char	*build_executable(t_ast *node, t_ms *ms)
 			free(binary);
 			return (NULL);
 		}
-		find_exec = find_executable(binary, path);//MALLOC
+		find_exec = find_executable(binary, path);
 		free(binary);
 		if (!find_exec)
 			return (NULL);

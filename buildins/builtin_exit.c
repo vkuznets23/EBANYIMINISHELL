@@ -6,7 +6,7 @@
 /*   By: vkuznets <vkuznets@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 12:15:31 by vkuznets          #+#    #+#             */
-/*   Updated: 2024/11/05 16:04:47 by vkuznets         ###   ########.fr       */
+/*   Updated: 2024/11/06 12:32:07 by vkuznets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static int	symbol_check(char *str, int i)
 	return (0); // If no errors, return 0
 }
 
+//29 lines
 void	builtin_exit(t_ms *ms, char **cmd)
 {
 	int	exit_code;
@@ -67,9 +68,7 @@ void	builtin_exit(t_ms *ms, char **cmd)
 	if (cmd[1] && cmd[2])
 	{
 		printf("exit: too many arguments\n");
-		fprintf(stderr, "%d\n", ms->exit_code);
 		ms->exit_code = 1;
-		fprintf(stderr, "%d\n", ms->exit_code);
 		return ;
 	}
 	else if (cmd[1])

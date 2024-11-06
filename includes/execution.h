@@ -30,7 +30,7 @@ int	ft_isquote(char c);
 int	ft_isdelim(char c);
 
 //BUILTINS
-void	builtin_cd(t_ms *ms, char *cmd);
+void	builtin_cd(t_ms *ms, t_ast *ast, char *cmd);
 void	builtin_echo(char **cmd);
 void	builtin_env(t_ms *ms);
 void	builtin_exit(t_ms *ms, char **cmd);

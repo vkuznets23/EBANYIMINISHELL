@@ -3,11 +3,12 @@ NAME = minishell
 
 # Compiler and flags
 CC = gcc
-#CFLAGS = -Wall -Wextra -Werror -I/opt/homebrew/opt/readline/include -I./includes -I./Libft
-#CFLAGS = -Wall -Wextra -Werror $(CPPFLAGS)  # Include CPPFLAGS for compilation
-#LDFLAGS = -L/opt/homebrew/opt/readline/lib -lreadline  # Include LDFLAGS for linking
-CFLAGS = -Wall -Wextra -Werror -I/usr/local/opt/readline/include -I./includes -I./Libft
-LDFLAGS = -L/usr/local/opt/readline/lib -lreadline
+CFLAGS = -Wall -Wextra -Werror -I/opt/homebrew/opt/readline/include -I./includes -I./Libft
+LDFLAGS = -L/opt/homebrew/opt/readline/lib -lreadline  # Include LDFLAGS for linking
+
+#CFLAGS = -Wall -Wextra -Werror -I/usr/local/opt/readline/include -I./includes -I./Libft
+#LDFLAGS = -L/usr/local/opt/readline/lib -lreadline
+
 
 # Directories
 LIBFT_DIR = ./Libft
@@ -67,4 +68,3 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
-

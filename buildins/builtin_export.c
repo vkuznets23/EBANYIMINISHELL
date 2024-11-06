@@ -6,7 +6,7 @@
 /*   By: vkuznets <vkuznets@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 11:48:53 by vkuznets          #+#    #+#             */
-/*   Updated: 2024/11/05 13:27:52 by vkuznets         ###   ########.fr       */
+/*   Updated: 2024/11/06 11:34:23 by vkuznets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ void	envp_add(t_ms *ms, char *content)
 
 void	builtin_export(t_ms *ms, char **cmd, int i)
 {
+	if (cmd[0] && !cmd[1])
+		builtin_env(ms);
 	while (cmd[i] != NULL)
 	{
 		if (!error_check(cmd[i]))

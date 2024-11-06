@@ -6,7 +6,7 @@
 /*   By: jhirvone <jhirvone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 14:25:28 by jhirvone          #+#    #+#             */
-/*   Updated: 2024/11/05 15:15:53 by jhirvone         ###   ########.fr       */
+/*   Updated: 2024/11/05 17:43:24 by vkuznets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	init_minishell(t_ms *ms, char **envp)
 	ms->envp_size = 0;
 	init_envp(ms, envp);
 	ms->exit_code = 0;
-	ms->envp_size = 0;
 	ms->stop = 0;
 	ms->quit = 0;
 	ms->pwd = getcwd(NULL, 0);

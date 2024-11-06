@@ -6,7 +6,7 @@
 /*   By: vkuznets <vkuznets@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 13:56:49 by vkuznets          #+#    #+#             */
-/*   Updated: 2024/11/05 13:56:58 by vkuznets         ###   ########.fr       */
+/*   Updated: 2024/11/06 12:24:35 by vkuznets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	close_and_change_array(t_ms *ms, int *fd)
 	i = 0;
 	while (i < 1024)
 	{
-		if(ms->fds[i] == *fd)
+		if (ms->fds[i] == *fd)
 		{
 			close_fd(fd);
 			ms->fds[i] = -1;

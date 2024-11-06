@@ -6,7 +6,7 @@
 /*   By: vkuznets <vkuznets@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 10:10:44 by vkuznets          #+#    #+#             */
-/*   Updated: 2024/11/05 14:50:03 by vkuznets         ###   ########.fr       */
+/*   Updated: 2024/11/06 11:25:02 by vkuznets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,21 +75,21 @@ static void	update_pwds(t_ms *ms)
 		malloc_parent_failure(ms);
 }
 
-static int	arg_count(t_ms *ms)
+static int	arg_count(t_ast *ast)
 {
 	int	i;
 
 	i = 0;
-	while (ms->ast->exp_value[i])
+	while (ast->exp_value[i])
 		i++;
 	return (i);
 }
 
-void	builtin_cd(t_ms *ms, char *cmd)
+void	builtin_cd(t_ms *ms, t_ast *ast, char *cmd)
 {
 	int	ret;
 
-	if (arg_count(ms) > 2)
+	if (arg_count(ast) > 2)
 	{
 		printf("minishell: cd: too many arguments\n");
 		return ;
@@ -110,7 +110,6 @@ void	builtin_cd(t_ms *ms, char *cmd)
 		printf("minishell: cd: %s: No such file or directory\n", cmd);
 		return ;
 	}
-	fprintf(stderr, "here\n");
 	if (cmd && (ft_strncmp(cmd, "~", 2) != 0))
 		update_pwds(ms);
 }
