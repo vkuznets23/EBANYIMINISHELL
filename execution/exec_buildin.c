@@ -6,7 +6,7 @@
 /*   By: vkuznets <vkuznets@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:15:41 by vkuznets          #+#    #+#             */
-/*   Updated: 2024/11/06 15:16:40 by vkuznets         ###   ########.fr       */
+/*   Updated: 2024/11/06 16:22:41 by vkuznets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,15 @@ bool	is_child_builtin(t_ast *ast)
 	return (false);
 }
 
-void	exec_builtin(t_ms *ms, t_ast *ast)
+int	exec_builtin(t_ms *ms, t_ast *ast)
 {
+	int	ret;
+
+	ret = 0;
 	if (!ft_strncmp("echo", ast->exp_value[0], 5))
 		builtin_echo(ast->exp_value);
 	else if (!ft_strncmp("cd", ast->exp_value[0], 3))
-		builtin_cd(ms, ast, ast->exp_value[1]);
+		ret = builtin_cd(ms, ast, ast->exp_value[1]);
 	else if (!ft_strncmp("env", ast->exp_value[0], 3))
 		builtin_env(ms);
 	else if (!ft_strncmp("pwd", ast->exp_value[0], 4))
@@ -59,6 +62,7 @@ void	exec_builtin(t_ms *ms, t_ast *ast)
 		builtin_unset(ms, ast->exp_value);
 	else
 		printf("Command not found: %s\n", ast->exp_value[0]);
+	return (ret);
 }
 
 
@@ -83,7 +87,11 @@ int	exec_bin(t_ms *ms, t_ast *node)
 	}
 	else
 	{
-		printf("Command not found: %s\n", node->exp_value[0]);
+		//printf("Command not found: %s\n", node->exp_value[0]);
+		ft_putstr_fd("Command not found: ", 2);
+		ft_putstr_fd(node->exp_value[0], 2);
+		ft_putendl_fd("", 2);
+
 		ft_free_ast(ms->ast);
 		clean_ms(ms);
 		exit(127);
@@ -97,7 +105,8 @@ void	child_process(t_ms *ms, t_ast *ast)
 {
 	if (is_child_builtin(ast) || is_builtin(ast))
 	{
-		exec_builtin(ms, ast); //bacause none of child functions are here
+		if (exec_builtin(ms, ast) == -1) //bacause none of child functions are here
+			exit(EXIT_FAILURE);
 		ft_free_ast(ms->ast);
 		clean_ms(ms);
 	}

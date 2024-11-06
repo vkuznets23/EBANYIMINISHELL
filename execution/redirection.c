@@ -6,7 +6,7 @@
 /*   By: vkuznets <vkuznets@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 12:25:41 by vkuznets          #+#    #+#             */
-/*   Updated: 2024/11/06 15:04:00 by vkuznets         ###   ########.fr       */
+/*   Updated: 2024/11/06 16:19:27 by vkuznets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	error_options(int error)
 	else if (error == 2)
 		ft_putstr_fd("No such file or directory: ", 2);
 	else if (error == 3)
-		ft_putstr_fd("command not found: ", 2);
+		ft_putstr_fd("Command not found: ", 2);
 }
 
 void	error_handler(char *file_name, int error)
@@ -119,10 +119,7 @@ int	redirection(t_ast *node)
 	while (current_io)
 	{
 		if (current_io->type == T_IN)
-		{
-			fprintf(stderr, "1\n");
 			status = ft_in(current_io);
-		}
 		else if (current_io->type == T_OUT)
 			status = ft_out(current_io);
 		else if (current_io->type == T_APPEND)

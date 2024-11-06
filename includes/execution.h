@@ -30,7 +30,7 @@ int	ft_isquote(char c);
 int	ft_isdelim(char c);
 
 //BUILTINS
-void	builtin_cd(t_ms *ms, t_ast *ast, char *cmd);
+int	builtin_cd(t_ms *ms, t_ast *ast, char *cmd);
 void	builtin_echo(char **cmd);
 void	builtin_env(t_ms *ms);
 void	builtin_exit(t_ms *ms, char **cmd);
@@ -44,7 +44,7 @@ char	*name_exists(const char *arg, t_ms *ms);
 
 //EXECUTION
 bool	is_builtin(t_ast *ast);
-void	exec_builtin(t_ms *ms, t_ast *ast);
+int	exec_builtin(t_ms *ms, t_ast *ast);
 void	child_process(t_ms *ms, t_ast *ast);
 void	execute_ast(t_ast *node,  t_ms *ms);
 void	close_fd(int *close_fd);

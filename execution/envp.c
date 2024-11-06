@@ -6,7 +6,7 @@
 /*   By: vkuznets <vkuznets@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 10:04:15 by vkuznets          #+#    #+#             */
-/*   Updated: 2024/11/05 13:22:19 by vkuznets         ###   ########.fr       */
+/*   Updated: 2024/11/06 16:03:33 by vkuznets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,14 @@ char	*envp_exists(char *name, t_ms *ms)
 	if (!temp)
 		malloc_parent_failure(ms);
 	len = ft_strlen(temp);
-	while (ms->my_envp[i++])
+	while (ms->my_envp[i])
 	{
 		if (ft_strnstr(ms->my_envp[i], temp, len))
 		{
 			free(temp);
 			return (ms->my_envp[i] + len);
 		}
+		i++;
 	}
 	free(temp);
 	return (NULL);

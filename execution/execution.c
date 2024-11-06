@@ -6,7 +6,7 @@
 /*   By: vkuznets <vkuznets@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 13:57:04 by vkuznets          #+#    #+#             */
-/*   Updated: 2024/11/06 15:01:40 by vkuznets         ###   ########.fr       */
+/*   Updated: 2024/11/06 16:29:11 by vkuznets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	execute_last_command(t_ast *node, t_ms *ms, int *pipefd)
 			exit(EXIT_FAILURE);
 		}
 		close_array_fds(ms);
-		if (redirection(node) == 1)
+		if (redirection(node) == -1)
 			exit(EXIT_FAILURE);
 		child_process(ms, node);
 		exit(EXIT_SUCCESS);
