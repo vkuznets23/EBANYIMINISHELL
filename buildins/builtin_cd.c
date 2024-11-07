@@ -6,7 +6,7 @@
 /*   By: vkuznets <vkuznets@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 10:10:44 by vkuznets          #+#    #+#             */
-/*   Updated: 2024/11/06 16:47:15 by vkuznets         ###   ########.fr       */
+/*   Updated: 2024/11/07 13:44:35 by vkuznets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ int	builtin_cd(t_ms *ms, t_ast *ast, char *cmd)
 	}
 
 	fprintf(stderr, "cmd = %s\n", cmd);
+	fprintf(stderr, "ast = %s\n", ast->value);
 	if (!cmd || (ft_strncmp(cmd, "~", 2) == 0) || !*cmd)
 	{
 		fprintf(stderr, "1\n");

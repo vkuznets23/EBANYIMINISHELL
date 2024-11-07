@@ -6,7 +6,7 @@
 /*   By: vkuznets <vkuznets@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 13:57:04 by vkuznets          #+#    #+#             */
-/*   Updated: 2024/11/06 16:29:11 by vkuznets         ###   ########.fr       */
+/*   Updated: 2024/11/07 14:04:21 by vkuznets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,11 @@ void	execute_command(t_ast *node, t_ms *ms)
 		else if (node->pid == 0)
 		{
 			if (redirection(node) == -1)
+			{
+				ft_free_ast(ms->ast);
+				clean_ms(ms);
 				exit(EXIT_FAILURE);
+			}
 			child_process(ms, node);
 			exit(EXIT_SUCCESS);
 		}

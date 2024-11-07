@@ -6,7 +6,7 @@
 /*   By: vkuznets <vkuznets@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:15:41 by vkuznets          #+#    #+#             */
-/*   Updated: 2024/11/06 16:22:41 by vkuznets         ###   ########.fr       */
+/*   Updated: 2024/11/07 13:01:30 by vkuznets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,22 +75,44 @@ int	exec_bin(t_ms *ms, t_ast *node)
 	cmd_path = build_executable(node, ms);
 	if (cmd_path)
 	{
+		if (access(cmd_path, F_OK))
+		{
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(node->exp_value[0], 2);
+			ft_putstr_fd(": No such file or directory\n", 2);
+			free(cmd_path);
+			ms->exit_code = 127;
+			return (-1);
+		}
 		ret = execve(cmd_path, node->exp_value, ms->my_envp);
 		if (ret == -1)
 		{
-			perror("execve");
-			ft_free_ast(ms->ast);
-			clean_ms(ms);
+			if (access(cmd_path, X_OK))
+			{
+				ft_putstr_fd("minishell: ", 2);
+				ft_putstr_fd(node->exp_value[0], 2);
+				ft_putstr_fd(": Permission denied\n", 2);
+				ms->exit_code = 126;
+				free(cmd_path);
+				return (-1);
+			}
+			else if (access(cmd_path, F_OK))
+			{
+				ft_putstr_fd("minishell: ", 2);
+				ft_putstr_fd(node->exp_value[0], 2);
+				ft_putstr_fd(": No such file or directory\n", 2);
+				free(cmd_path);
+				return (-1);
+			}
+			ms->exit_code = 1;
 			free(cmd_path);
 			return (-1); //that means fail
 		}
 	}
 	else
 	{
-		//printf("Command not found: %s\n", node->exp_value[0]);
-		ft_putstr_fd("Command not found: ", 2);
 		ft_putstr_fd(node->exp_value[0], 2);
-		ft_putendl_fd("", 2);
+		ft_putstr_fd(": command not found\n", 2);
 
 		ft_free_ast(ms->ast);
 		clean_ms(ms);
@@ -113,7 +135,7 @@ void	child_process(t_ms *ms, t_ast *ast)
 	else
 	{
 		if (exec_bin(ms, ast) == -1)
-			exit(EXIT_FAILURE);
+			exit(ms->exit_code);
 	}
 }
 

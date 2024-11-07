@@ -6,7 +6,7 @@
 /*   By: vkuznets <vkuznets@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 11:48:53 by vkuznets          #+#    #+#             */
-/*   Updated: 2024/11/06 11:34:23 by vkuznets         ###   ########.fr       */
+/*   Updated: 2024/11/07 11:16:38 by vkuznets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,9 @@ void	builtin_export(t_ms *ms, char **cmd, int i)
 		}
 		else
 		{
-			fprintf(stderr, "export: not a valid identifier\n");
+			ft_putstr_fd("minishell: export: ", 2);
+			ft_putstr_fd(cmd[i], 2);
+			ft_putstr_fd(": not a valid identifier\n", 2);
 			ms->exit_code = 1;
 		}
 		i++;

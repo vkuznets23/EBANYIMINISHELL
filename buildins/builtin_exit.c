@@ -6,7 +6,7 @@
 /*   By: vkuznets <vkuznets@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 12:15:31 by vkuznets          #+#    #+#             */
-/*   Updated: 2024/11/06 12:32:07 by vkuznets         ###   ########.fr       */
+/*   Updated: 2024/11/07 11:36:26 by vkuznets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,11 @@ void	builtin_exit(t_ms *ms, char **cmd)
 	exit_code = 0; // Default exit code is 0 (indicating success)
 	if (cmd[1] && symbol_check(cmd[1], 0) == 1)
 	{
-		ft_putstr_fd("exit: numeric argument required\n", 2);
+		ft_putstr_fd("exit\n", 1);
+		ft_putstr_fd("minishell: exit: ", 2);
+		ft_putstr_fd(cmd[1], 2);
+		ft_putstr_fd(": numeric argument required\n", 2);
+
 		ft_free_ast(ms->ast);
 		clean_ms(ms);
 		exit(2);
@@ -79,7 +83,8 @@ void	builtin_exit(t_ms *ms, char **cmd)
 		else
 			exit_code = (256 - ((arg * -1) % 256));
 	}
-	ft_putstr_fd("exit\n", 1);
+	if (!ms->ast->left && !ms->ast->right)
+		ft_putstr_fd("exit\n", 1); //i need to add it if its 1 cmd
 	ft_free_ast(ms->ast);
 	clean_ms(ms);
 	exit(exit_code);

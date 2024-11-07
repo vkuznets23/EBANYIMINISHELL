@@ -1,77 +1,106 @@
-pwd
-exit
-exit 17
-exit 72860
-exit 21474336489
-exit 9223372036854775807
-exit 9223372036854775808 (small fix)
-exit -9223372036854775808
-exit -9223372036854775809 (same fix)
-exit invalid
-exit | cat
-exit > ../outfiles/outfile (should it be child?)
-ls | exit
+exit > ../outfiles/outfile (it should create outfile and exit should it be child?) !!
+*!! echo hello > ../outfiles/outfile world
+*!! echo hello > ../outfiles/outfile2 world > ../outfiles/outfile
+*!! echo hello > ../outfiles/outfile2 world > ../outfiles/outfile1 abc123 > ../outfiles/outfile
+cd "" !!
+./not_exists_123 👌
+/usr/bin/not_exists_bin | wc -l 👌
+cat -e < ./infiles/f1 | grep "Lorem" | cat !!
+ls | "" | "  " | " " > ""
+cat <./infile/f1|ls 👌
+ls > $OUTFILE !!
+ls >> $OUTFILE !!
+ls -a > ../outfiles/outfile 👌
+couple of spaces and then enter -> it should print new prompt and bla bla
+ls -a > ../outfiles/outfile  👌
+ls -la > ./infiles/noaccess 👌
+ls -la | grep ":" > ../outfiles/outfile | wc
+ls -la >> ../outfiles/outfile | ls >> ../outfiles/outfile
+cat < ./infiles/f1 >> ../outfiles/outfile | ls >> ../outfiles/outfile
+cat < ./infiles/noaccess >> ../outfiles/outfile | ls >> ../outfiles/outfile
+cat < ./infiles/f1 | cat | sort | cat -e > ../outfiles/outfile
+ls && cd tmp/
+cd abcdefg/ || ls -a >> ../outfiles/outfile
+cd abcdefg/ || (ls -la > ../outfiles/outfile)
 
-echo abc 123
-echo -n
-echo $HOME
-echo $"HOME" (shouldn't print $ BUT it keeps $ if it's just $)
-echo '$HOME' (same here)
-$ *change command not found to minishell: $: command not found
-echo $?
-echo $
-echo "$"
-echo '$'
-echo $'$hello' (same one dollar thing)
-echo "> >> < * ? [ ] | ; [ ] || && ( ) & # $ \ <<"
-echo '> >> < * ? [ ] | ; [ ] || && ( ) & # $ \ <<'
-echo $NOTEXISTS
-*echo hello > ../outfiles/outfile world
-*echo hello > ../outfiles/outfile2 world > ../outfiles/outfile
-*echo hello > ../outfiles/outfile2 world > ../outfiles/outfile1 abc123 > ../outfiles/outfile
-______
-cd non_existent_directory
-cd tmp/
-cd .
-cd ..
-cd ""
-cd
-cd asfk 84 kasdf
-cd ../../../../../../../../../../../
-unset PATH
-unset HOME
-unset PWD
-unset NOTEXISTS123
-./not_exists_123
-not_existing_cmd
-ls
-/usr/bin/not_exists_bin | wc -l
+____
+pwd 👌
+exit 👌
+exit 17 👌
+exit 72860 👌
+exit 21474336489 👌
+exit 9223372036854775807 👌
+exit 9223372036854775808 👌
+exit -9223372036854775808 👌
+exit -9223372036854775809 👌
+exit invalid 👌
+exit | cat 👌🔄
+exit > ../outfiles/outfile (it should create outfile and exit should it be child?) !!
+ls | exit 👌🔄
+
+echo abc 123 👌
+echo -n 👌
+echo $HOME 👌
+echo $"HOME" 👌
+echo '$HOME' 👌
+$ 👌
+echo $? 👌
+echo $ 👌
+echo "$" 👌
+echo '$' 👌
+echo $'$hello' 👌
+echo "> >> < * ? [ ] | ; [ ] || && ( ) & # $ \ <<" 👌
+echo '> >> < * ? [ ] | ; [ ] || && ( ) & # $ \ <<' 👌
+echo $NOTEXISTS 👌
+*!! echo hello > ../outfiles/outfile world
+*!! echo hello > ../outfiles/outfile2 world > ../outfiles/outfile
+*!! echo hello > ../outfiles/outfile2 world > ../outfiles/outfile1 abc123 > ../outfiles/outfile
+
+cd non_existent_directory 👌
+cd tmp/ 👌
+cd . 👌
+cd .. 👌
+cd "" !!
+cd 👌
+cd asfk 84 kasdf 👌
+cd ../../../../../../../../../../../ 👌
+_____
+unset PATH 👌
+unset HOME 👌
+unset PWD 👌
+unset NOTEXISTS123 👌
+./not_exists_123 👌
+not_existing_cmd 👌
+ls 👌
+/usr/bin/not_exists_bin | wc -l 👌
 <<<<<
 < >
 << < << < 
 
-cat -e < ./infiles/f1 | grep "Lorem" | cat
-"    "
-ls | "" | "  " | " " > ""
-/usr/bin/ls | wc -l
-ls -la | wc -w "-l" | cat -e
-echo "hello" | grep "hello"
-echo "world" | grep "hello"
-ls -la | grep "^d" | wc -l
-echo "hello" | cat | grep "hello"
-ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls
-export VARIABLE=value123
-export 8VARIABLE=value
-unset HOME
-unset PWD
-cat <./infile/f1|ls
-cat <./infile/f1>../outfiles/outfile
-ls > $OUTFILE
-ls >> $OUTFILE
-ls -a > ../outfiles/outfile
-ls -la > ./infiles/noaccess
-ls -la | grep ":" > ../outfiles/outfile | wc
-ls -la >> ../outfiles/outfile | ls >> ../outfiles/outfile
+cat -e < ./infiles/f1 | grep "Lorem" | cat !!
+"    " 👌
+ls | "" | "  " | " " > "" !!
+/usr/bin/ls | wc -l 👌
+ls -la | wc -w "-l" | cat -e 👌
+echo "hello" | grep "hello" 👌
+echo "world" | grep "hello" 👌
+ls -la | grep "^d" | wc -l 👌
+echo "hello" | cat | grep "hello" 👌
+ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls 👌
+
+export VARIABLE=value123 👌
+export 8VARIABLE=value 👌
+unset HOME 👌
+unset PWD 👌
+cat <./infile/f1|ls !! 👌
+cat <./infile/f1>../outfiles/outfile !! 👌
+ls > $OUTFILE !!
+ls >> $OUTFILE !!
+_______
+ls -a > ../outfiles/outfile (free before exit everywhere)
+ls -la > ./infiles/noaccess 
+ls -la | grep ":" > ../outfiles/outfile | wc 👌
+ls -la >> ../outfiles/outfile | ls >> ../outfiles/outfile 👌🔄
 cat < ./infiles/f1 >> ../outfiles/outfile | ls >> ../outfiles/outfile
 cat < ./infiles/noaccess >> ../outfiles/outfile | ls >> ../outfiles/outfile
 cat < ./infiles/f1 | cat | sort | cat -e > ../outfiles/outfile
