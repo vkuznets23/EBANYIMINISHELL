@@ -6,7 +6,7 @@
 /*   By: vkuznets <vkuznets@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:15:41 by vkuznets          #+#    #+#             */
-/*   Updated: 2024/11/07 13:01:30 by vkuznets         ###   ########.fr       */
+/*   Updated: 2024/11/07 14:33:33 by vkuznets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int	exec_bin(t_ms *ms, t_ast *node)
 
 	ret = 0;
 	cmd_path = build_executable(node, ms);
+	fprintf(stderr, "%s\n", cmd_path);
 	if (cmd_path)
 	{
 		if (access(cmd_path, F_OK))

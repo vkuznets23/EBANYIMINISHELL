@@ -6,7 +6,7 @@
 /*   By: vkuznets <vkuznets@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 13:57:04 by vkuznets          #+#    #+#             */
-/*   Updated: 2024/11/07 14:04:21 by vkuznets         ###   ########.fr       */
+/*   Updated: 2024/11/07 15:12:43 by vkuznets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,11 @@ void	execute_middle_command(t_ast *node, t_ms *ms, int *pipefd, int *write_pipe)
 		}
 		close_array_fds(ms);
 		if (redirection(node) == -1)
+		{
+			ft_free_ast(ms->ast);
+			clean_ms(ms);
 			exit(EXIT_FAILURE);
+		}
 		child_process(ms, node);
 		exit(EXIT_SUCCESS);
 	}
@@ -62,7 +66,11 @@ void	execute_last_command(t_ast *node, t_ms *ms, int *pipefd)
 		}
 		close_array_fds(ms);
 		if (redirection(node) == -1)
+		{
+			ft_free_ast(ms->ast);
+			clean_ms(ms);
 			exit(EXIT_FAILURE);
+		}
 		child_process(ms, node);
 		exit(EXIT_SUCCESS);
 	}
@@ -90,7 +98,11 @@ void	execute_first_command(t_ast *node, t_ms *ms, int *pipefd)
 		}
 		close_array_fds(ms);
 		if (redirection(node) == -1)
+		{
+			ft_free_ast(ms->ast);
+			clean_ms(ms);
 			exit(EXIT_FAILURE);
+		}
 		child_process(ms, node);
 		exit(EXIT_SUCCESS);
 	}
@@ -162,15 +174,9 @@ void	execute_first_pipe(t_ast *node, t_ms *ms)
 	if (node->left && node->left->type == T_PIPE)
 		execute_pipe(node->left, ms, pipefd);
 	else if (node->left && node->left->type == T_CMND)
-	{
-		fprintf(stderr, "first cmd %s\n", *node->left->exp_value);
 		execute_first_command(node->left, ms, pipefd);
-	}
 	if (node->right && node->right->type == T_CMND && ms->stop == 0)
-	{
-		fprintf(stderr, "last cmd %s\n", *node->right->exp_value);
 		execute_last_command(node->right, ms, pipefd);
-	}
 	close_multiple_fds(pipefd);
 }
 
