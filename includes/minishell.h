@@ -13,12 +13,13 @@ extern int ms_signal;
 #include "parsing.h"
 #include "execution.h"
 
-void	signal_handler();
 void	free_array(char **array);
 void	clean_ms(t_ms *ms);
 
 //signals
-void	ft_sigint_parent(int num);
-void	ft_sigint_heredoc(int num);
+void	signal_handler_child();
+void	signal_handler_exec();
+void	signal_handler_parent();
+void	signal_handler_heredoc();
 
 #endif

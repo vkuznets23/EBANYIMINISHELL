@@ -6,7 +6,7 @@
 /*   By: vkuznets <vkuznets@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 12:24:56 by vkuznets          #+#    #+#             */
-/*   Updated: 2024/11/07 11:04:13 by vkuznets         ###   ########.fr       */
+/*   Updated: 2024/11/08 14:25:49 by vkuznets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	*build_executable(t_ast *node, t_ms *ms)
 
 	if (!node || !*node->value)
 		return (NULL);
-	binary = node->value;
+	binary = node->exp_value[0];
 	if (!ft_strchr(binary, '/'))
 	{
 		binary = ft_strjoin("/", binary);

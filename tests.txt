@@ -1,29 +1,22 @@
+
+OUR TESTS->
+mkdir tmp1 -> mkdir tmp2
+rm ../tmp2/ => rm: cannot remove '../tmp2/': Is a directory 👌
+
+deleting the directory and trying to reach it with cd 👌
+
+______
+NEED TO CHECK ->
 exit > ../outfiles/outfile (it should create outfile and exit should it be child?) !!
-*!! echo hello > ../outfiles/outfile world
-*!! echo hello > ../outfiles/outfile2 world > ../outfiles/outfile
-*!! echo hello > ../outfiles/outfile2 world > ../outfiles/outfile1 abc123 > ../outfiles/outfile
-cd "" !!
-./not_exists_123 👌
-/usr/bin/not_exists_bin | wc -l 👌
-cat -e < ./infiles/f1 | grep "Lorem" | cat !!
-ls | "" | "  " | " " > ""
-cat <./infile/f1|ls 👌
+
 ls > $OUTFILE !!
+Bash cannot resolve the path or target for a redirection due to an issue with variable expansion
+
 ls >> $OUTFILE !!
-ls -a > ../outfiles/outfile 👌
 couple of spaces and then enter -> it should print new prompt and bla bla
-ls -a > ../outfiles/outfile  👌
-ls -la > ./infiles/noaccess 👌
-ls -la | grep ":" > ../outfiles/outfile | wc
-ls -la >> ../outfiles/outfile | ls >> ../outfiles/outfile
-cat < ./infiles/f1 >> ../outfiles/outfile | ls >> ../outfiles/outfile
-cat < ./infiles/noaccess >> ../outfiles/outfile | ls >> ../outfiles/outfile
-cat < ./infiles/f1 | cat | sort | cat -e > ../outfiles/outfile
-ls && cd tmp/
-cd abcdefg/ || ls -a >> ../outfiles/outfile
-cd abcdefg/ || (ls -la > ../outfiles/outfile)
 
 ____
+AARNI's TESTS ->
 pwd 👌
 exit 👌
 exit 17 👌
@@ -52,9 +45,9 @@ echo $'$hello' 👌
 echo "> >> < * ? [ ] | ; [ ] || && ( ) & # $ \ <<" 👌
 echo '> >> < * ? [ ] | ; [ ] || && ( ) & # $ \ <<' 👌
 echo $NOTEXISTS 👌
-*!! echo hello > ../outfiles/outfile world
-*!! echo hello > ../outfiles/outfile2 world > ../outfiles/outfile
-*!! echo hello > ../outfiles/outfile2 world > ../outfiles/outfile1 abc123 > ../outfiles/outfile
+echo hello > ../outfiles/outfile world 👌
+echo hello > ../outfiles/outfile2 world > ../outfiles/outfile 👌
+echo hello > ../outfiles/outfile2 world > ../outfiles/outfile1 abc123 > ../outfiles/outfile 👌
 
 cd non_existent_directory 👌
 cd tmp/ 👌
@@ -73,13 +66,13 @@ unset NOTEXISTS123 👌
 not_existing_cmd 👌
 ls 👌
 /usr/bin/not_exists_bin | wc -l 👌
-<<<<<
-< >
-<< < << < 
+<<<<< 👌
+< > 👌
+<< < << < 👌
 
-cat -e < ./infiles/f1 | grep "Lorem" | cat !!
+cat -e < ./infiles/f1 | grep "Lorem" | cat 👌
 "    " 👌
-ls | "" | "  " | " " > "" !!
+ls | "" | "  " | " " > "" 👌
 /usr/bin/ls | wc -l 👌
 ls -la | wc -w "-l" | cat -e 👌
 echo "hello" | grep "hello" 👌
@@ -96,14 +89,11 @@ cat <./infile/f1|ls !! 👌
 cat <./infile/f1>../outfiles/outfile !! 👌
 ls > $OUTFILE !!
 ls >> $OUTFILE !!
-_______
-ls -a > ../outfiles/outfile (free before exit everywhere)
-ls -la > ./infiles/noaccess 
+ls -a > ../outfiles/outfile 👌
+ls -la > ./infiles/noaccess 👌
 ls -la | grep ":" > ../outfiles/outfile | wc 👌
 ls -la >> ../outfiles/outfile | ls >> ../outfiles/outfile 👌🔄
-cat < ./infiles/f1 >> ../outfiles/outfile | ls >> ../outfiles/outfile
-cat < ./infiles/noaccess >> ../outfiles/outfile | ls >> ../outfiles/outfile
-cat < ./infiles/f1 | cat | sort | cat -e > ../outfiles/outfile
-ls && cd tmp/
-cd abcdefg/ || ls -a >> ../outfiles/outfile
-cd abcdefg/ || (ls -la > ../outfiles/outfile)
+cat < ./infiles/f1 >> ../outfiles/outfile | ls >> ../outfiles/outfile 👌
+cat < ./infiles/noaccess >> ../outfiles/outfile | ls >> ../outfiles/outfile 👌🔄
+cat < ./infiles/f1 | cat | sort | cat -e > ../outfiles/outfile 👌
+cd abcdefg/ | ls -a >> ../outfiles/outfile 👌🔄

@@ -6,7 +6,7 @@
 /*   By: jhirvone <jhirvone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 14:25:28 by jhirvone          #+#    #+#             */
-/*   Updated: 2024/11/06 15:17:40 by vkuznets         ###   ########.fr       */
+/*   Updated: 2024/11/06 11:27:53 by jhirvone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	main(int ac, char **av, char **envp)
 		if (!str)
 		{
 			printf("exit\n");
-			break;
+			break ;
 		}
 		if (!*str)
 		{
@@ -82,13 +82,12 @@ int	main(int ac, char **av, char **envp)
 		ms.tokens = ft_tokenize(str, &ms);
 		if (ms.stop)
 			continue ;
-		print_tokens(ms.tokens); //DEBUG
-		//creating the ast tree;
+		print_tokens(ms.tokens);//DEBUG
 		ms.ast = parsing_ast(ms.tokens, &ms);
 		if (ms.stop)
 			continue ;
 		expand_ast(ms.ast, &ms);
-		print_ast_tree(ms.ast);  //debug
+		print_ast_tree(ms.ast);//debug
 		ast_heredoc(ms.ast, &ms);
 		if (ms.stop)
 		{

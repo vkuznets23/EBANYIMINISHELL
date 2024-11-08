@@ -6,7 +6,7 @@
 /*   By: vkuznets <vkuznets@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:15:41 by vkuznets          #+#    #+#             */
-/*   Updated: 2024/11/07 14:33:33 by vkuznets         ###   ########.fr       */
+/*   Updated: 2024/11/08 14:34:06 by vkuznets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ int	exec_bin(t_ms *ms, t_ast *node)
 
 	ret = 0;
 	cmd_path = build_executable(node, ms);
-	fprintf(stderr, "%s\n", cmd_path);
 	if (cmd_path)
 	{
 		if (access(cmd_path, F_OK))
@@ -81,7 +80,6 @@ int	exec_bin(t_ms *ms, t_ast *node)
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(node->exp_value[0], 2);
 			ft_putstr_fd(": No such file or directory\n", 2);
-			free(cmd_path);
 			ms->exit_code = 127;
 			return (-1);
 		}
@@ -94,20 +92,19 @@ int	exec_bin(t_ms *ms, t_ast *node)
 				ft_putstr_fd(node->exp_value[0], 2);
 				ft_putstr_fd(": Permission denied\n", 2);
 				ms->exit_code = 126;
-				free(cmd_path);
 				return (-1);
 			}
-			else if (access(cmd_path, F_OK))
+			else
 			{
 				ft_putstr_fd("minishell: ", 2);
 				ft_putstr_fd(node->exp_value[0], 2);
-				ft_putstr_fd(": No such file or directory\n", 2);
-				free(cmd_path);
+				ft_putstr_fd(": Is a directory\n", 2);
+				ms->exit_code = 126;
 				return (-1);
 			}
 			ms->exit_code = 1;
 			free(cmd_path);
-			return (-1); //that means fail
+			return (-1);
 		}
 	}
 	else
@@ -128,15 +125,23 @@ void	child_process(t_ms *ms, t_ast *ast)
 {
 	if (is_child_builtin(ast) || is_builtin(ast))
 	{
-		if (exec_builtin(ms, ast) == -1) //bacause none of child functions are here
-			exit(EXIT_FAILURE);
+		if (exec_builtin(ms, ast) == -1)
+		{
+			ft_free_ast(ms->ast);
+			clean_ms(ms);
+			exit(EXIT_FAILURE); //do i need to change it to ms exit code?
+		}
 		ft_free_ast(ms->ast);
 		clean_ms(ms);
 	}
 	else
 	{
 		if (exec_bin(ms, ast) == -1)
+		{
+			ft_free_ast(ms->ast);
+			clean_ms(ms);
 			exit(ms->exit_code);
+		}
 	}
 }
 

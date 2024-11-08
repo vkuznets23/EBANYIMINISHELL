@@ -6,7 +6,7 @@
 /*   By: vkuznets <vkuznets@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 10:10:44 by vkuznets          #+#    #+#             */
-/*   Updated: 2024/11/07 13:44:35 by vkuznets         ###   ########.fr       */
+/*   Updated: 2024/11/08 14:00:48 by vkuznets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ static int	change_dir_path(t_ms *ms, char *str)
 	tmp = find_the_path(str, ms);
 	if (!tmp)
 	{
-		printf("minishell: cd: %s not set\n", tmp); //?
+		ft_putstr_fd("minishell: cd: HOME not set\n", 2); //?
 		ms->pwd = NULL;
-		return (-1);
+		return (-2);
 	}
 	ret = chdir(tmp);
 	free(tmp);
@@ -65,7 +65,7 @@ static int	change_dir_path(t_ms *ms, char *str)
 	return (ret);
 }
 
-static void	update_pwds(t_ms *ms)
+static void	update_pwds(t_ms *ms , char *cmd)
 {
 	char	*tmp;
 
@@ -77,7 +77,21 @@ static void	update_pwds(t_ms *ms)
 	free(ms->pwd);
 	ms->pwd = getcwd(NULL, 0);
 	if (!ms->pwd)
-		malloc_parent_failure(ms);
+	{
+		if (errno == ENOMEM)
+			malloc_parent_failure(ms);
+		else if (errno == ENOENT)
+		{
+			ft_putstr_fd("cd: error retrieving current directory:", 2);
+			ft_putstr_fd("getcwd: cannot access parent directories: ", 2);
+			ft_putstr_fd("No such file or directory\n", 2);
+			if (ft_strncmp(cmd, "..", 3) == 0)
+				ms->pwd = ft_strjoin(ms->old_pwd, "/.."); //MALLOC
+			else if (ft_strncmp(cmd, ".", 2) == 0)
+				ms->pwd = ft_strjoin(ms->old_pwd, "/."); //MALLOC
+			return ;
+		}
+	}
 }
 
 static int	arg_count(t_ast *ast)
@@ -113,15 +127,16 @@ int	builtin_cd(t_ms *ms, t_ast *ast, char *cmd)
 		printf("%s\n", ms->old_pwd);
 	}
 	else if (ft_strncmp(cmd, "..", 3) == 0)
-		ret = chdir("..");
+		ret = chdir(cmd);
+	//check with . -> it should stay at the same dir 
 	else
 		ret = chdir(cmd);
-	if (ret != 0)
+	if (ret == -1)
 	{
 		printf("minishell: cd: %s: No such file or directory\n", cmd);
 		return (-1);
 	}
 	if (cmd && (ft_strncmp(cmd, "~", 2) != 0) && *cmd)
-		update_pwds(ms);
+		update_pwds(ms, cmd);
 	return (ret);
 }

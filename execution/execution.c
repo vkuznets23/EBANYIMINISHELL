@@ -6,7 +6,7 @@
 /*   By: vkuznets <vkuznets@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 13:57:04 by vkuznets          #+#    #+#             */
-/*   Updated: 2024/11/07 15:12:43 by vkuznets         ###   ########.fr       */
+/*   Updated: 2024/11/08 15:55:25 by vkuznets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,10 +109,19 @@ void	execute_first_command(t_ast *node, t_ms *ms, int *pipefd)
 	close_and_change_array(ms, &pipefd[1]);
 }
 
+int	redirection_parent(t_ast *node);
 void	execute_command(t_ast *node, t_ms *ms)
 {
 	if (is_builtin(node))
+	{
+		// check if there is >> or > redir and create a file
+		if (node->io_list)
+		{
+			if (redirection_parent(node) == -1)
+				return ; //right?
+		}
 		exec_builtin(ms, node);
+	}
 	else
 	{
 		node->pid = fork();
@@ -197,8 +206,6 @@ void	ft_waiting(t_ast *node, t_ms *ms)
 	if (node->right)
 		ft_waiting(node->right, ms);
 }
-
-void	signal_handler_exec(void);
 
 void	execute_ast(t_ast *node, t_ms *ms)
 {

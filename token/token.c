@@ -1,74 +1,42 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jhirvone <jhirvone@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/06 11:14:40 by jhirvone          #+#    #+#             */
+/*   Updated: 2024/11/06 11:26:19 by jhirvone         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 void		print_ast_tree(t_ast *root);
 const char	*token_type_to_str(t_token_type type);
 
-int ft_isspace(char c)
+static void	error_quit(t_ms *ms, char *str)
 {
-    if (c == ' ' || c == '\t' || c == '\n'
-	|| c == '\v' || c == '\f' || c == '\r')
-        return (1);
-    return (0);
+	clean_ms(ms);
+	free(str);
+	printf("minishell: cannot allocate memory\n");
+	exit(1);
 }
 
-int ft_isoperator(char *str)
+static int	error_set(t_ms *ms, char *str, int type)
 {
-    if (!str)
-        return (0);
-    if (ft_strncmp(str, "<<", 2) == 0 || ft_strncmp(str, ">>", 2) == 0)
-        return (2);
-    if (*str == '|' || *str == '<' || *str == '>')
-        return (1);
-    return (0);
-}
-
-t_token_type	ft_operator_type(char *str)
-{
-	if (ft_strncmp(str, "<<", 2) == 0)
-		return (T_HERE_DOC);
-	else if (ft_strncmp(str, ">>", 2) == 0)
-		return (T_APEND);
-	else if (*str == '<')
-		return (T_IN_REDIR);
-	else if (*str == '>')
-		return (T_OUT_REDIR);
-	else
-		return (T_PIPE);
-}
-
-char *ft_strndup(const char *src, int i)
-{
-    char	*dest;
-    int		j;
-
-    dest = (char *)malloc(sizeof(char) * (i + 1));
-    if (!dest)
-        return NULL;
-    j = -1;
-    while (++j < i)
-        dest[j] = src[j];
-    dest[i] = '\0';
-    return dest;
-}
-
-void	create_operator_token(char **str, t_token **lst, t_token_type type, t_ms *ms)
-{
-	t_token *node;
-
-	node = create_token(type, NULL);
-	if (!node)
+	free(str);
+	if (type == 1)
 	{
-		ms->quit = 1;
-		return ; //error handling needed
+		printf("minishell: No closing quote\n");
+		ms->stop = 1;
 	}
-	add_token_to_list(lst, node);
-	if (node->type == T_HERE_DOC || node->type == T_APEND)
-		(*str)++;
-	(*str)++;
+	else if (type == 2)
+		ms->quit = 1;
+	return (1);
 }
 
-//how to handle empty quotes? create an emptry str?
-void	handle_quote(char **str, int *i, t_ms *ms)
+static int	handle_quote(char **str, int *i, t_ms *ms)
 {
 	char	type;
 
@@ -77,65 +45,56 @@ void	handle_quote(char **str, int *i, t_ms *ms)
 	while ((*str)[*i])
 	{
 		if ((*str)[*i] == type)
-			break;
+			break ;
 		else
 			(*i)++;
 	}
-	if (!(*str)[*i])  //fix error handling for incorrect quotes
-	{
-		printf("minishell: No closing quote\n");
-		ms->stop = 1;
-		return ;
-	}
+	if (!(*str)[*i])
+		return (error_set(ms, NULL, 1));
 	(*i)++;
 	while ((*str)[*i] && !ft_isspace((*str)[*i]) && !ft_isoperator((*str)))
 	{
 		if ((*str)[*i] == '\'' || (*str)[*i] == '"')
 		{
 			handle_quote(str, i, ms);
-			break;
+			break ;
 		}
 		else
 			(*i)++;
 	}
+	return (0);
 }
 
-void	create_argument_token(char **str, t_token **lst, t_token_type type, t_ms *ms)
+static	int	create_arg(char **str, t_token **lst, t_token_type type, t_ms *ms)
 {
-	int 	i;
 	char	*line;
 	t_token	*node;
+	int		i;
 
 	i = 0;
-	while ((*str)[i] && !ft_isoperator(((*str)+i)) && !ft_isspace((*str)[i]))
+	while ((*str)[i] && !ft_isoperator(((*str) + i)) && !ft_isspace((*str)[i]))
 	{
 		if ((*str)[i] == '\'' || (*str)[i] == '"')
-			handle_quote(str, &i, ms); //WIP
+			handle_quote(str, &i, ms);
 		else
 			i++;
 		if (ms->stop == 1)
-			return;
+			return (1);
 	}
 	line = ft_strndup(*str, i);
 	if (!line)
-	{
-		ms->quit = 1;
-		return ; //error handling needed
-	}
+		return (error_set(ms, NULL, 2));
 	node = create_token(type, line);
 	if (!node)
-	{
-		free(line);
-		ms->quit = 1;
-		return ; //error handling needed
-	}
+		return (error_set(ms, line, 2));
 	add_token_to_list(lst, node);
 	(*str) += i;
+	return (0);
 }
 
 t_token	*ft_tokenize(char *str, t_ms *ms)
 {
-	t_token *lst;
+	t_token	*lst;
 	char	*temp;
 
 	lst = NULL;
@@ -145,9 +104,9 @@ t_token	*ft_tokenize(char *str, t_ms *ms)
 		while (ft_isspace(*str))
 			str++;
 		if (ft_isoperator(str))
-			create_operator_token(&str, &lst, ft_operator_type(str), ms);
+			crt_operator_tkn(&str, &lst, ft_operator_type(str), ms);
 		else
-			create_argument_token(&str, &lst, T_CMND, ms);
+			create_arg(&str, &lst, T_CMND, ms);
 		while (ft_isspace(*str))
 			str++;
 	}
@@ -155,12 +114,7 @@ t_token	*ft_tokenize(char *str, t_ms *ms)
 	{
 		ft_free_token(lst);
 		if (ms->quit)
-		{
-			clean_ms(ms);
-			free(temp);
-			printf("minishell: cannot allocate memory\n");
-			exit(1);
-		}
+			error_quit(ms, temp);
 	}
 	free(temp);
 	return (lst);
